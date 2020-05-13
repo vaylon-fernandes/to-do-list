@@ -1,4 +1,5 @@
 import tkinter
+from tkinter import messagebox
 import random
 #root
 root = tkinter.Tk()
@@ -31,20 +32,22 @@ def add_task():
 		tasks.append(task)
 		update_listbox()
 	else:
-		lbl_display["text"] = "Please Enter a Task"
+		messagebox.showwarning("Warning","You need to enter a task")
 	txt_input.delete(0,"end")
 
 def del_all():
 #global as we are changing the list
 #the tasks list has to be updated globally
 	global tasks
-	tasks = []
+	confirm = messagebox.askyesno("Confirm: Delete all","Do you want to delete all?")
+	if confirm:	
+		tasks = []
 	update_listbox()
 
 def del_one():
 	task = lb_list_box.get("active")
-
-	if task in tasks:
+	confirm = messagebox.askyesno("Confirm: Delete ","Do you want to delete?")
+	if task in tasks and confirm:
 		tasks.remove(task)
 	update_listbox()
 
