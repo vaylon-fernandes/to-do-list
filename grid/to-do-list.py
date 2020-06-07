@@ -2,6 +2,7 @@ import tkinter
 from tkinter import messagebox
 import random
 from ttkthemes import themed_tk as tk
+import sys 
 #root
 #root = tkinter.Tk()
 root = tk.ThemedTk()
@@ -81,12 +82,14 @@ def del_one():
         messagebox.showwarning("Warning","The list is empty!!")
 
 def sort_asc():
-	tasks.sort()
-	update_listbox()
+    tasks.sort()
+    update_listbox()
 
 def sort_dsc():
-	tasks.sort()
-	task.reverse()
+    tasks.sort()
+    tasks.reverse()
+    update_listbox()
+
 
 def choose_random():
     """
@@ -99,6 +102,9 @@ def show_number_tasks():
 	tasks_number = len(tasks)
 	msg = f"Number of Tasks: {tasks_number}"
 	lbl_display["text"] = msg
+
+def ex():
+    sys.exit()
 
 
 #setup
@@ -133,7 +139,7 @@ btn_choose_random.grid(row=5,column=0)
 btn_show_number_tasks = tkinter.Button(root,text="Number of Tasks",fg="#0f0f0f",bg="white",command=show_number_tasks)
 btn_show_number_tasks.grid(row=6,column=0)
 
-btn_exit = tkinter.Button(root,text="Exit",fg="green",bg="white",command=exit)
+btn_exit = tkinter.Button(root,text="Exit",fg="green",bg="white",command=ex)
 btn_exit.grid(row=7,column=0)
 
 lb_list_box = tkinter.Listbox(root)
