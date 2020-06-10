@@ -2,7 +2,11 @@ import tkinter
 from tkinter import messagebox
 import random
 from ttkthemes import themed_tk as tk
+<<<<<<< HEAD
 from sys import exit
+=======
+import sys 
+>>>>>>> 26a1b6808b13f4d1f435822d8cb3d4d48ea36af4
 #root
 #root = tkinter.Tk()
 root = tk.ThemedTk()
@@ -82,12 +86,14 @@ def del_one():
         messagebox.showwarning("Warning","The list is empty!!")
 
 def sort_asc():
-	tasks.sort()
-	update_listbox()
+    tasks.sort()
+    update_listbox()
 
 def sort_dsc():
-	tasks.sort()
-	task.reverse()
+    tasks.sort()
+    tasks.reverse()
+    update_listbox()
+
 
 def choose_random():
     """
@@ -102,7 +108,13 @@ def show_number_tasks():
 	lbl_display["text"] = msg
 
 def ex():
+<<<<<<< HEAD
 	exit()
+=======
+    sys.exit()
+
+
+>>>>>>> 26a1b6808b13f4d1f435822d8cb3d4d48ea36af4
 #setup
 lbl_title = tkinter.Label(root,text="To-Do List",bg="white")
 lbl_title.grid(row=0,column=0)
