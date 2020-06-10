@@ -1,5 +1,6 @@
 import tkinter
 from tkinter import messagebox
+from sys import exit
 import random
 #root
 root = tkinter.Tk()
@@ -68,6 +69,9 @@ def show_number_tasks():
 	msg = f"Number of Tasks: {tasks_number}"
 	lbl_display["text"] = msg
 
+def ex():
+	exit()
+
 
 #setup
 lbl_title = tkinter.Label(root,text="To-Do List",bg="white")
@@ -100,7 +104,7 @@ btn_choose_random.pack()
 btn_show_number_tasks = tkinter.Button(root,text="Number of Tasks",fg="green",bg="white",command=show_number_tasks)
 btn_show_number_tasks.pack()
 
-btn_exit = tkinter.Button(root,text="Exit",fg="green",bg="white",command=exit)
+btn_exit = tkinter.Button(root,text="Exit",fg="green",bg="white",command=ex)
 btn_exit.pack()
 
 lb_list_box = tkinter.Listbox(root)

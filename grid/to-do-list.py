@@ -2,6 +2,7 @@ import tkinter
 from tkinter import messagebox
 import random
 from ttkthemes import themed_tk as tk
+from sys import exit
 #root
 #root = tkinter.Tk()
 root = tk.ThemedTk()
@@ -49,7 +50,7 @@ def add_task():
     else:
         messagebox.showwarning("Warning","You need to enter a task")
     txt_input.delete(0,"end")
-#root.bind("<Return>", add_task())
+
 def del_all():
     """
     Deletes all listbox entries
@@ -100,7 +101,8 @@ def show_number_tasks():
 	msg = f"Number of Tasks: {tasks_number}"
 	lbl_display["text"] = msg
 
-
+def ex():
+	exit()
 #setup
 lbl_title = tkinter.Label(root,text="To-Do List",bg="white")
 lbl_title.grid(row=0,column=0)
@@ -133,7 +135,7 @@ btn_choose_random.grid(row=5,column=0)
 btn_show_number_tasks = tkinter.Button(root,text="Number of Tasks",fg="#0f0f0f",bg="white",command=show_number_tasks)
 btn_show_number_tasks.grid(row=6,column=0)
 
-btn_exit = tkinter.Button(root,text="Exit",fg="green",bg="white",command=exit)
+btn_exit = tkinter.Button(root,text="Exit",fg="green",bg="white",command=ex)
 btn_exit.grid(row=7,column=0)
 
 lb_list_box = tkinter.Listbox(root)
