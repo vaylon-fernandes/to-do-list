@@ -1,20 +1,19 @@
-import tkinter
+
+import tkinter 
 from tkinter import messagebox
 import random
-from ttkthemes import themed_tk as tk
-<<<<<<< HEAD
+#from ttkthemes import themed_tk as tk
 from sys import exit
-=======
-import sys 
->>>>>>> 26a1b6808b13f4d1f435822d8cb3d4d48ea36af4
+
+
 #root
 #root = tkinter.Tk()
-root = tk.ThemedTk()
-root.get_themes()                 # Returns a list of all themes that can be set
-root.set_theme("clearlooks")         # Sets an available theme
+root = tkinter.Tk()
+#root.get_themes()                 # Returns a list of all themes that can be set
+#root.set_theme("clearlooks")         # Sets an available theme
 
 #Change root background color
-root.configure(bg="#ffffff")
+root.configure(bg="#f0f0f0")
 
 #change the title
 root.title("To-Do List")
@@ -23,6 +22,7 @@ root.geometry("250x250")
 #theme
 
 tasks = []
+count = 1
 
 #for testing
 #tasks = ["a","b","c","f","e"]
@@ -32,27 +32,34 @@ def update_listbox():
     """
     Clears the list and then updates the listbox
     """
+    global count
     clear_listbox()
-    for task in tasks:
-        lb_list_box.insert("end",task)
+    for i in range(len(tasks)):
+        i += 1
+        lb_list_box.insert("end",tasks[i-1])
 
 def clear_listbox():
    '''Clears the listbox'''
    lb_list_box.delete(0,"end")
-
+   
 def on_return(event):
     add_task()
 
 def add_task():
     """Adds a task entered from the input to the listbox.
         Shows a warning if the input box is empty"""
-    task = txt_input.get()
-     #append to the list if input is not empty
+    global count 
+    task = txt_input.get() +"\n"
+    
+     #append to the list if input field is not empty
     if task !="":
         tasks.append(task)
         update_listbox()
+        count += 1
     else:
         messagebox.showwarning("Warning","You need to enter a task")
+
+    #clear the input field
     txt_input.delete(0,"end")
 
 def del_all():
@@ -62,11 +69,13 @@ def del_all():
 #global as we are changing the list
 #the tasks list has to be updated globally
     global tasks
+    global count
     if tasks != []:
         confirm = messagebox.askyesno("Confirm: Delete all","Do you want to delete all?")
         if confirm:
             tasks = []
         update_listbox()
+        count = 1
     else:
         messagebox.showwarning("Warning","The list is empty!!")
 
@@ -76,23 +85,28 @@ def del_one():
     If no task is selected, the tasks are
     deleted in a First In First Out order
     """
+    global count
     task = lb_list_box.get("active")
     if tasks != []:
         confirm = messagebox.askyesno("Confirm: Delete ","Do you want to delete?")
         if task in tasks and confirm:
             tasks.remove(task)
+            
+            
+         
         update_listbox()
+        
     else:
         messagebox.showwarning("Warning","The list is empty!!")
 
-def sort_asc():
+'''def sort_asc():
     tasks.sort()
-    update_listbox()
+    update_listbox()'''
 
-def sort_dsc():
+'''def sort_dsc():
     tasks.sort()
     tasks.reverse()
-    update_listbox()
+    update_listbox()'''
 
 
 def choose_random():
@@ -108,13 +122,14 @@ def show_number_tasks():
 	lbl_display["text"] = msg
 
 def ex():
-<<<<<<< HEAD
-	exit()
-=======
-    sys.exit()
+    confirm = messagebox.askyesno("Exit","Do you want to exit")
+    if confirm:
+        exit()
+    else:
+        pass 
 
 
->>>>>>> 26a1b6808b13f4d1f435822d8cb3d4d48ea36af4
+
 #setup
 lbl_title = tkinter.Label(root,text="To-Do List",bg="white")
 lbl_title.grid(row=0,column=0)
@@ -127,19 +142,19 @@ txt_input.bind("<Return>",on_return)
 txt_input.grid(row=1,column=1)
 
 btn_add_task = tkinter.Button(root,text="Add Task",fg="#0000ff",bg="white",command=add_task)
-btn_add_task.grid(row=0,column=0)
+btn_add_task.grid(row=1,column=0)
 
 btn_del_all = tkinter.Button(root,text="Delete All",fg="red",bg="white",command=del_all)
-btn_del_all.grid(row=1,column=0)
+btn_del_all.grid(row=2,column=0)
 
 btn_del_one = tkinter.Button(root,text="Delete",fg="red",bg="white",width=7,command=del_one)
-btn_del_one.grid(row=2,column=0)
+btn_del_one.grid(row=3,column=0)
 
-btn_sort_asc = tkinter.Button(root,text="Sort(Asc)",fg="#010101",bg="white",command=sort_asc)
-btn_sort_asc.grid(row=3,column=0)
+#btn_sort_asc = tkinter.Button(root,text="Sort(Asc)",fg="#010101",bg="white",command=sort_asc)
+#btn_sort_asc.grid(row=3,column=0)
 
-btn_sort_dsc = tkinter.Button(root,text="Sort(Dsc)",fg="#0f0f0f",bg="white",command=sort_dsc)
-btn_sort_dsc.grid(row=4,column=0)
+# = tkinter.Button(root,text="Sort(Dsc)",fg="#0f0f0f",bg="white",command=sort_dsc)
+#btn_sort_dsc.grid(row=4,column=0)
 
 btn_choose_random = tkinter.Button(root,text="Choose random",fg="#0f0f0f",bg="white",command = choose_random)
 btn_choose_random.grid(row=5,column=0)
