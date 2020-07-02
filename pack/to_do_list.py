@@ -5,7 +5,7 @@ import random
 #root
 root = tkinter.Tk()
 #Change root bacground color
-root.configure(bg="white")
+root.configure(bg="#f0f0f0")
 
 #change the title
 root.title("To-Do List")
@@ -52,13 +52,13 @@ def del_one():
 		tasks.remove(task)
 	update_listbox()
 
-def sort_asc():
-	tasks.sort()
-	update_listbox()
+#def sort_asc():
+#	tasks.sort()
+#	update_listbox()
 
-def sort_dsc():
-	tasks.sort()
-	task.reverse()
+#def sort_dsc():
+#	tasks.sort()
+#	task.reverse()
 
 def choose_random():
 	task = random.choice(tasks)
@@ -70,7 +70,9 @@ def show_number_tasks():
 	lbl_display["text"] = msg
 
 def ex():
-	exit()
+	confirm = messagebox.askyesno(title="Exit",message="Do you want to leave?")
+	if confirm:
+		exit()
 
 
 #setup
@@ -86,25 +88,25 @@ txt_input.pack()
 btn_add_task = tkinter.Button(root,text="Add Task",fg="green",bg="white",command=add_task)
 btn_add_task.pack()
 
-btn_del_all = tkinter.Button(root,text="Delete All",fg="green",bg="white",command=del_all)
+btn_del_all = tkinter.Button(root,text="Delete All",fg="red",bg="white",command=del_all)
 btn_del_all.pack()
 
-btn_del_one = tkinter.Button(root,text="Delete",fg="green",bg="white",command=del_one)
+btn_del_one = tkinter.Button(root,text="Delete",fg="red",bg="white",command=del_one)
 btn_del_one.pack()
 
-btn_sort_asc = tkinter.Button(root,text="Sort(Asc)",fg="green",bg="white",command=sort_asc)
-btn_sort_asc.pack()
+#btn_sort_asc = tkinter.Button(root,text="Sort(Asc)",fg="green",bg="white",command=sort_asc)
+#btn_sort_asc.pack()
 
-btn_sort_dsc = tkinter.Button(root,text="Sort(Dsc)",fg="green",bg="white",command=sort_dsc)
-btn_sort_dsc.pack()
+#btn_sort_dsc = tkinter.Button(root,text="Sort(Dsc)",fg="green",bg="white",command=sort_dsc)
+#btn_sort_dsc.pack()
 
-btn_choose_random = tkinter.Button(root,text="Choose random",fg="green",bg="white",command = choose_random)
+btn_choose_random = tkinter.Button(root,text="Choose random",fg="blue",bg="white",command = choose_random)
 btn_choose_random.pack()
 
-btn_show_number_tasks = tkinter.Button(root,text="Number of Tasks",fg="green",bg="white",command=show_number_tasks)
+btn_show_number_tasks = tkinter.Button(root,text="Number of Tasks",fg="blue",bg="white",command=show_number_tasks)
 btn_show_number_tasks.pack()
 
-btn_exit = tkinter.Button(root,text="Exit",fg="green",bg="white",command=ex)
+btn_exit = tkinter.Button(root,text="Exit",fg="black",bg="white",command=ex)
 btn_exit.pack()
 
 lb_list_box = tkinter.Listbox(root)
