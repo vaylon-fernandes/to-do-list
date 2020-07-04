@@ -4,7 +4,7 @@ from tkinter import messagebox
 import random
 #from ttkthemes import themed_tk as tk
 from sys import exit
-
+import sqlite3 as sq 
 
 #root
 #root = tkinter.Tk()
@@ -16,13 +16,19 @@ root = tkinter.Tk()
 root.configure(bg="#f0f0f0")
 
 #change the title
-root.title("To-Do List")
+root.title("To-Do List App")
 #change the root size
 root.geometry("250x250")
-#theme
 
+#global list for storing tasks
 tasks = []
-count = 1
+
+#sqlite setup
+conn = sq.connect('todo.db')
+cur = conn.cursor()
+#create a table
+cur.execute('CREATE TABLE IF NOT EXISTS tasks (task text)')
+
 
 #for testing
 #tasks = ["a","b","c","f","e"]
@@ -32,11 +38,9 @@ def update_listbox():
     """
     Clears the list and then updates the listbox
     """
-    global count
     clear_listbox()
-    for i in range(len(tasks)):
-        i += 1
-        lb_list_box.insert("end",tasks[i-1])
+    for task in tasks:
+        lb_list_box.insert("end",task)
 
 def clear_listbox():
    '''Clears the listbox'''
@@ -48,14 +52,15 @@ def on_return(event):
 def add_task():
     """Adds a task entered from the input to the listbox.
         Shows a warning if the input box is empty"""
-    global count 
-    task = txt_input.get() +"\n"
+     
+    task = txt_input.get() 
     
      #append to the list if input field is not empty
     if task !="":
         tasks.append(task)
+        cur.execute('INSERT INTO tasks values(?)',(task,))
+        conn.commit()
         update_listbox()
-        count += 1
     else:
         messagebox.showwarning("Warning","You need to enter a task")
 
@@ -66,16 +71,19 @@ def del_all():
     """
     Deletes all listbox entries
     """
-#global as we are changing the list
-#the tasks list has to be updated globally
+    #global as we are changing the list
+    #the tasks list has to be updated globally
     global tasks
-    global count
+    
     if tasks != []:
         confirm = messagebox.askyesno("Confirm: Delete all","Do you want to delete all?")
         if confirm:
             tasks = []
-        update_listbox()
-        count = 1
+
+            cur.execute("DELETE FROM tasks")
+            conn.commit()
+            update_listbox()
+        
     else:
         messagebox.showwarning("Warning","The list is empty!!")
 
@@ -85,28 +93,17 @@ def del_one():
     If no task is selected, the tasks are
     deleted in a First In First Out order
     """
-    global count
+    
     task = lb_list_box.get("active")
     if tasks != []:
         confirm = messagebox.askyesno("Confirm: Delete ","Do you want to delete?")
         if task in tasks and confirm:
             tasks.remove(task)
-            
-            
-         
-        update_listbox()
-        
+            cur.execute('DELETE FROM tasks where task is (?)',(task,))
+            conn.commit()
+            update_listbox()
     else:
         messagebox.showwarning("Warning","The list is empty!!")
-
-'''def sort_asc():
-    tasks.sort()
-    update_listbox()'''
-
-'''def sort_dsc():
-    tasks.sort()
-    tasks.reverse()
-    update_listbox()'''
 
 
 def choose_random():
@@ -125,9 +122,12 @@ def ex():
     confirm = messagebox.askyesno("Exit","Do you want to exit")
     if confirm:
         exit()
-    else:
-        pass 
-
+    
+def reload_data():
+    global tasks
+    tasks = []
+    for data in cur.execute('SELECT task from tasks'):
+        tasks.append(data)
 
 
 #setup
@@ -150,12 +150,6 @@ btn_del_all.grid(row=2,column=0)
 btn_del_one = tkinter.Button(root,text="Delete",fg="red",bg="white",width=7,command=del_one)
 btn_del_one.grid(row=3,column=0)
 
-#btn_sort_asc = tkinter.Button(root,text="Sort(Asc)",fg="#010101",bg="white",command=sort_asc)
-#btn_sort_asc.grid(row=3,column=0)
-
-# = tkinter.Button(root,text="Sort(Dsc)",fg="#0f0f0f",bg="white",command=sort_dsc)
-#btn_sort_dsc.grid(row=4,column=0)
-
 btn_choose_random = tkinter.Button(root,text="Choose random",fg="#0f0f0f",bg="white",command = choose_random)
 btn_choose_random.grid(row=5,column=0)
 
@@ -168,5 +162,13 @@ btn_exit.grid(row=7,column=0)
 lb_list_box = tkinter.Listbox(root)
 lb_list_box.grid(row=2,column=1,rowspan=7)
 
+#retrieve data from database 
+#and update the listbox
+reload_data()
+update_listbox()
 
 root.mainloop()
+
+
+#close connection
+cur.close()
