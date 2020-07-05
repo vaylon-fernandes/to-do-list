@@ -1,4 +1,3 @@
-
 import tkinter 
 from tkinter import messagebox
 import random
@@ -36,22 +35,28 @@ cur.execute('CREATE TABLE IF NOT EXISTS tasks (task text)')
 #Functions
 def update_listbox():
     """
-    Clears the list and then updates the listbox
+    Clears the listbox and 
+    then updates the listbox
     """
     clear_listbox()
     for task in tasks:
         lb_list_box.insert("end",task)
+    conn.commit()
 
 def clear_listbox():
    '''Clears the listbox'''
    lb_list_box.delete(0,"end")
    
 def on_return(event):
+    '''Calls the add_task() function
+    when the "Enter" key is pressed
+    in the Entry widget'''
     add_task()
 
 def add_task():
-    """Adds a task entered from the input to the listbox.
-        Shows a warning if the input box is empty"""
+    """Adds a task entered from the input field to the listbox.
+    Also appends the task to the list.
+    Shows a warning if the input box is empty"""
      
     task = txt_input.get() 
     
@@ -59,7 +64,6 @@ def add_task():
     if task !="":
         tasks.append(task)
         cur.execute('INSERT INTO tasks values(?)',(task,))
-        conn.commit()
         update_listbox()
     else:
         messagebox.showwarning("Warning","You need to enter a task")
@@ -69,7 +73,8 @@ def add_task():
 
 def del_all():
     """
-    Deletes all listbox entries
+    Deletes all listbox entries.
+    Shows warning if list is empty.
     """
     #global as we are changing the list
     #the tasks list has to be updated globally
@@ -81,7 +86,7 @@ def del_all():
             tasks = []
 
             cur.execute("DELETE FROM tasks")
-            conn.commit()
+        
             update_listbox()
         
     else:
@@ -100,7 +105,7 @@ def del_one():
         if task in tasks and confirm:
             tasks.remove(task)
             cur.execute('DELETE FROM tasks where task is (?)',(task,))
-            conn.commit()
+            
             update_listbox()
     else:
         messagebox.showwarning("Warning","The list is empty!!")
@@ -114,20 +119,28 @@ def choose_random():
     lbl_display["text"] = task
 
 def show_number_tasks():
-	tasks_number = len(tasks)
-	msg = f"Number of Tasks: {tasks_number}"
-	lbl_display["text"] = msg
+    '''Displays the number of tasks 
+    currently present in the listbox '''
+    tasks_number = len(tasks)
+    msg = f"Number of Tasks: {tasks_number}"
+    lbl_display["text"] = msg
 
 def ex():
+    '''Asks the user if they would like to 
+    leave the app. If true closes the app.'''
     confirm = messagebox.askyesno("Exit","Do you want to exit")
     if confirm:
         exit()
     
 def reload_data():
+    '''Retrieves tasks from the database 
+    if it is not empty and displays them 
+    in the listbox'''
     global tasks
     tasks = []
     for data in cur.execute('SELECT task from tasks'):
         tasks.append(data)
+    update_listbox()
 
 
 #setup
@@ -165,7 +178,7 @@ lb_list_box.grid(row=2,column=1,rowspan=7)
 #retrieve data from database 
 #and update the listbox
 reload_data()
-update_listbox()
+
 
 root.mainloop()
 
