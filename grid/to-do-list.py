@@ -1,15 +1,10 @@
 import tkinter
 from tkinter import messagebox
 import random
-# from ttkthemes import themed_tk as tk
-from sys import exit
 import sqlite3 as sq
 
 # root
-# root = tkinter.Tk()
 root = tkinter.Tk()
-# root.get_themes()                 # Returns a list of all themes that can be set
-# root.set_theme("clearlooks")         # Sets an available theme
 
 # Change root background color
 root.configure(bg="#f0f0f0")
@@ -28,9 +23,12 @@ cur = conn.cursor()
 # create a table
 cur.execute('CREATE TABLE IF NOT EXISTS tasks (task text)')
 
-
 # for testing
-# tasks = ["a","b","c","f","e"]
+# uncomment the line any one of the two line below and comment line 146
+# tasks = ["a","b","c","f","e","g","h","i","J"]
+# tasks = [chr(i) for i in range(65,91)]
+# the above line creates a list of letters from A-Z
+
 
 # Functions
 def update_listbox():
@@ -137,7 +135,7 @@ def ex():
     leave the app. If true closes the app.'''
     confirm = messagebox.askyesno("Exit", "Do you want to exit")
     if confirm:
-        exit()
+        root.destroy()
 
 
 def reload_data():
