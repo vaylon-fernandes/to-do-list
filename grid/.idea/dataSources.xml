@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="todo" uuid="3973bb48-4939-4804-a90c-661d8b526a81">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\Shanti\Documents\GitHub\to-do-list\grid\todo.db</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="todo [2]" uuid="9f93aed9-2a2f-48cc-b3db-d59bc3b314a2">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\Shanti\Documents\GitHub\to-do-list\grid\todo.db</jdbc-url>
+    </data-source>
+  </component>
+</project>

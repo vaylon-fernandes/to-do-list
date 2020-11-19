@@ -107,7 +107,7 @@ def del_one():
         confirm = messagebox.askyesno("Confirm: Delete ", "Do you want to delete?")
         if task in tasks and confirm:
             tasks.remove(task)
-            cur.execute('DELETE FROM tasks where task is (?)', (task,))
+            cur.execute('DELETE FROM tasks where task is ?', task)
             conn.commit()
             update_listbox()
     else:
